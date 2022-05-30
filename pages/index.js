@@ -1,4 +1,5 @@
-import Head from 'next/head'
+import Head from "next/head";
+import TodoItem from "../components/todoItem";
 
 export default function Home() {
   return (
@@ -9,8 +10,18 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-        <div>I'm ready to use supabase</div>
+      <div className="flex flex-col items-center justify-center  max-w-3xl mx-auto mt-20">
+        <h1 className="text-5xl font-bold mb-12">Todos 🚀</h1>
 
+        <div
+          className="
+             p-2 flex flex-col space-y-5"
+        >
+          <TodoItem text="test" />
+          <TodoItem text="test" />
+          <TodoItem text="test" />
+        </div>
+      </div>
     </div>
-  )
+  );
 }
