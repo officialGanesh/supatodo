@@ -2,7 +2,7 @@ import React from "react";
 
 function TodoItem({ text }) {
   return (
-    <div className="flex center justify-between w-80 transition transform duration-200 ease-in-out hover:bg-[#232323] hover:scale-105  cursor-pointer p-3 border border-gray-800">
+    <div className="flex center justify-between transition transform duration-200 ease-in-out hover:bg-[#232323] hover:scale-105  cursor-pointer p-3 border border-gray-800 ">
       <p className="text-gray-400  text-base font-medium">{text}</p>
       <div className="text-gray-500">
         <svg
