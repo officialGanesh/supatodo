@@ -1,19 +1,31 @@
+import { useRef, useState, useEffect } from "react";
 import Head from "next/head";
 import TodoItem from "../components/todoItem";
 import { supabase } from "../utils/supabase";
 
-export async function getServerSideProps(ctx) {
-  // Fetch all the available todos
-  let { data: todos, error } = await supabase.from("todos").select("*");
+export default function Home() {
+  const inputRef = useRef(null);
+  const [todos, setTodos] = useState([]);
 
-  return {
-    props: {
-      todos,
-    },
+  // Fetching all the todos
+  useEffect(() => {
+    const fetchTodos = async () => {
+      let { data: todos, error } = await supabase.from("todos").select("*");
+      setTodos(todos);
+    };
+    fetchTodos();
+  }, [todos]);
+
+  // Adding a new todo
+  const addTodoToSupabaseDB = async (e) => {
+    e.preventDefault();
+    const { data, error } = await supabase
+      .from("todos")
+      .insert([{ todo: inputRef.current.value }]);
+
+    inputRef.current.value = "";
   };
-}
 
-export default function Home({ todos }) {
   return (
     <div>
       <Head>
@@ -30,18 +42,21 @@ export default function Home({ todos }) {
             type="text"
             className="border rounded-sm border-gray-800 w-full p-2 outline-none bg-[#232323] font-semibold"
             placeholder="Write todo "
+            ref={inputRef}
           />
-          <div className="border py-2 px-4  cursor-pointer rounded-sm border-gray-800 hover:bg-gray-800">
+          <div
+            className="border py-2 px-4  cursor-pointer rounded-sm border-gray-800 hover:bg-gray-800"
+            onClick={addTodoToSupabaseDB}
+          >
             Add
           </div>
         </div>
-
         <div
           className="
              p-2 flex flex-col space-y-3 w-full"
         >
           {todos?.map((todo) => (
-            <TodoItem key={todo.id} text={todo.todo} />
+            <TodoItem key={todo.id} todo_id={todo.id} text={todo.todo} />
           ))}
         </div>
       </div>

@@ -1,10 +1,18 @@
 import React from "react";
+import { supabase } from "../utils/supabase";
 
-function TodoItem({ text }) {
+function TodoItem({ text, todo_id }) {
+  // Deleting a new todo
+  const deleteTodoFromSupabaseDB = async (e) => {
+    const { data, error } = await supabase.from("todos").delete().match({
+      id: todo_id,
+    });
+  };
+
   return (
     <div className="flex center justify-between transition transform duration-200 ease-in-out hover:bg-[#232323] hover:scale-105  cursor-pointer p-3 border border-gray-800 ">
       <p className="text-gray-400  text-base font-medium">{text}</p>
-      <div className="text-gray-500">
+      <div className="text-gray-500" onClick={deleteTodoFromSupabaseDB}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-5 w-5"
